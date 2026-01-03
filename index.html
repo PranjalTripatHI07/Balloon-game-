@@ -445,6 +445,10 @@
                     <div class="result-label">Questions Completed</div>
                     <div id="finalQuestions" class="result-value">0/25</div>
                 </div>
+                <div class="result-card">
+                    <div class="result-label">Perfect Questions</div>
+                    <div id="finalPerfect" class="result-value good">0/25</div>
+                </div>
             </div>
             <button class="btn btn-primary" onclick="game.restart()">Play Again</button>
         </div>
@@ -470,6 +474,10 @@
                 <div class="stat-item">
                     <div class="stat-label">Accuracy</div>
                     <div id="accuracy" class="stat-value">100%</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Perfect</div>
+                    <div id="perfectCount" class="stat-value">0</div>
                 </div>
             </div>
         </div>
@@ -518,6 +526,8 @@
                 this.correctSelections = 0;
                 this.incorrectSelections = 0;
                 this.totalSelections = 0;
+                this.perfectQuestions = 0;
+                this.currentQuestionCorrect = true;
                 this.responseTimes = [];
                 this.questionStartTime = 0;
                 this.timer = null;
@@ -553,6 +563,7 @@
                     correctCount: document.getElementById('correctCount'),
                     incorrectCount: document.getElementById('incorrectCount'),
                     accuracy: document.getElementById('accuracy'),
+                    perfectCount: document.getElementById('perfectCount'),
                     progressFill: document.getElementById('progressFill'),
                     progressPercent: document.getElementById('progressPercent')
                 };
@@ -577,6 +588,8 @@
                 this.correctSelections = 0;
                 this.incorrectSelections = 0;
                 this.totalSelections = 0;
+                this.perfectQuestions = 0;
+                this.currentQuestionCorrect = true;
                 this.responseTimes = [];
                 this.usedExpressions.clear();
                 this.difficulty = {
@@ -609,6 +622,7 @@
 
                 this.currentQuestion++;
                 this.selectedOrder = [];
+                this.currentQuestionCorrect = true;
                 this.questionStartTime = Date.now();
                 
                 // Adapt difficulty based on performance
@@ -858,6 +872,7 @@
                     this.difficulty.recentPerformance.push(1);
                 } else {
                     this.incorrectSelections++;
+                    this.currentQuestionCorrect = false;
                     this.difficulty.recentPerformance.push(0);
                 }
                 
@@ -872,6 +887,12 @@
                 if (this.selectedOrder.length === this.currentBubbles.length) {
                     // Record response time
                     this.responseTimes.push((Date.now() - this.questionStartTime) / 1000);
+                    
+                    // Track perfect questions
+                    if (this.currentQuestionCorrect) {
+                        this.perfectQuestions++;
+                    }
+                    this.updateStats();
                     
                     // Short delay before next question
                     setTimeout(() => {
@@ -982,6 +1003,7 @@
                 this.elements.correctCount.textContent = this.correctSelections;
                 this.elements.incorrectCount.textContent = this.incorrectSelections;
                 this.elements.accuracy.textContent = `${accuracy}%`;
+                this.elements.perfectCount.textContent = this.perfectQuestions;
                 
                 const progress = (this.currentQuestion / this.totalQuestions) * 100;
                 this.elements.progressFill.style.width = `${progress}%`;
@@ -1016,6 +1038,7 @@
                 document.getElementById('finalIncorrect').textContent = this.incorrectSelections;
                 document.getElementById('finalAvgTime').textContent = `${avgTime}s`;
                 document.getElementById('finalQuestions').textContent = `${this.currentQuestion}/${this.totalQuestions}`;
+                document.getElementById('finalPerfect').textContent = `${this.perfectQuestions}/${this.totalQuestions}`;
                 
                 // Show results
                 this.elements.gameScreen.classList.add('hidden');
