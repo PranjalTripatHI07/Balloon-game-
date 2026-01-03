@@ -943,10 +943,7 @@
                 
                 // Increase difficulty if performing well
                 if (recentAccuracy >= 0.8 && overallAccuracy >= 0.75) {
-                    // Gradually increase challenge
-                    if (this.difficulty.bubbleCount < 6 && Math.random() < 0.3) {
-                        this.difficulty.bubbleCount = Math.min(6, this.difficulty.bubbleCount + 1);
-                    }
+                    // Gradually increase challenge (bubble count stays fixed at 3)
                     if (this.difficulty.maxNumber < 50) {
                         this.difficulty.maxNumber += 5;
                     }
@@ -963,9 +960,7 @@
                 
                 // Decrease difficulty if struggling
                 if (recentAccuracy < 0.5) {
-                    if (this.difficulty.bubbleCount > 3) {
-                        this.difficulty.bubbleCount--;
-                    }
+                    // Bubble count stays fixed at 3
                     if (this.difficulty.maxNumber > 15) {
                         this.difficulty.maxNumber -= 5;
                     }
