@@ -1,6 +1,6 @@
 # 🫧 Bubble Math Game - Cognitive Assessment
 
-A web-based Bubble Math Game that replicates the **Accenture Cognitive Assessment – Bubble Math Game (2026 pattern)**.
+A web-based Bubble Math Game that replicates the **Cognitive Assessment – Bubble Math Game (2026 pattern)**.
 
 ![Bubble Math Game](https://img.shields.io/badge/Game-Bubble%20Math-00d4ff)
 ![Version](https://img.shields.io/badge/Version-1.0-green)
